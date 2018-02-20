@@ -1,0 +1,32 @@
+/**************************************************Makefile***********************************************/
+CXX = g++
+CXXFLAGS = -W -Wall -ansi -pedantic --std=c++11
+
+.PHONY : clean martist
+
+martist: martist.o parser.o colorExpression.o
+	ar rcu libmartist.a $^
+
+martist.o: martist.cpp
+	$(CXX) -c $< -o $@ $(CXXFLAGS)
+
+colorExpression.o: colorExpression.cpp
+	$(CXX) -c $< -o $@ $(CXXFLAGS)
+
+parser.o: parser.cpp
+	$(CXX) -c $< -o $@ $(CXXFLAGS)
+
+clean:
+	rm -rf *.o
+/*************************************************************************************************************/
+
+
+
+//Compile command
+g++ main.cpp martist.cpp parser.cpp colorExpression.cpp -g  -o test -Wall -Wextra -pedantic -L/usr/X11R6/lib -lm -lpthread -lX11 -std=c++11
+
+//Makefile
+make martist
+
+//Test makefile
+g++ -o test main.cpp -L. -lmartist -L/usr/X11R6/lib -lm -lpthread -lX11 -std=c++11
